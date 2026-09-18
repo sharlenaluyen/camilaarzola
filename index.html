@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Camila's little corner</title>
+  <meta name="description" content="A little corner for art, friendship, and a home-cooked life.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="wrap nav">
+    <a class="signature" href="#top">Camila A.</a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#resume">Friend resume</a>
+      <a href="#art">Art wall</a>
+      <a href="#hello">Say hello</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="wrap hero">
+      <div>
+        <p class="eyebrow">An open invitation</p>
+        <h1>Let’s be friends and make a little life.</h1>
+        <p>I’m Camila: a blueberry scientist, artist, reader, homebody, and enthusiastic maker of meals for the people I love. I’m also extremely interested in teas. This is my tiny corner of the internet, and perhaps the beginning of a good friendship.</p>
+        <a class="button" href="#hello">Submit your friend resume →</a>
+      </div>
+      <aside class="hero-note">
+        <p>“The best kind of afternoon has a pot on the stove, something growing in the window, and nowhere urgent to be.”</p>
+      </aside>
+    </section>
+
+    <section class="section" id="resume">
+      <div class="wrap">
+        <div class="section-intro">
+          <div><p class="eyebrow">The friendship application</p><h2>Friend resume</h2></div>
+          <p>Bring your whole self. Bonus points for a strong snack opinion and a willingness to linger at the table.</p>
+        </div>
+        <div class="resume-grid">
+          <article class="resume-card wide"><h3>What I’m looking for</h3><p>Someone kind and curious to trade recipes with, visit small museums, take slow walks, read beside, make things alongside, and build the sort of friendship that feels like a warm kitchen.</p></article>
+          <article class="resume-card"><h3>My ideal plans</h3><ul><li>Farmers market mornings</li><li>Hikes with a packed lunch</li><li>Blueberry treats and a long chat</li></ul></article>
+          <article class="resume-card"><h3>Current interests</h3><p>Blueberry science, novels with underlined passages, new art supplies, garden experiments, foraging walks, and extremely serious tea tasting.</p></article>
+          <article class="resume-card"><h3>Important notes</h3><p>I’m allergic to black pepper, cats, and dairy. I’m very pro-label-reading and very anti-making anyone feel awkward about it.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="art">
+      <div class="wrap">
+        <div class="section-intro"><div><p class="eyebrow">Things made by hand</p><h2>Art wall</h2></div><p>A few studies, textures, and little worlds from my sketchbook and studio table.</p></div>
+        <div class="gallery">
+          <figure class="art"><img src="https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=1000&q=85" alt="Colorful abstract painting on a wall"><figcaption>Color study · “Greenhouse light”</figcaption></figure>
+          <figure class="art"><img src="https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=700&q=85" alt="Painted artwork with bright colors"><figcaption>Small painting · “The walk home”</figcaption></figure>
+          <figure class="art"><img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=700&q=85" alt="Paintbrushes and art supplies on a table"><figcaption>Studio table · in progress</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap life-grid">
+        <div><p class="eyebrow">A few more things</p><h2>Domestic bliss, in progress.</h2><p>I believe a home is something you practice: tending plants, putting on music while you cook, setting the table for one more person, and making room for the people who matter.</p></div>
+        <ul class="list">
+          <li><span>Reading</span><span>Currently: one more chapter</span></li>
+          <li><span>Getting around</span><span>Truman, my manual Honda Fit</span></li>
+          <li><span>Kitchen project</span><span>Perfecting blueberry treats</span></li>
+          <li><span>Tea status</span><span>Always curious, often steeping</span></li>
+          <li><span>Garden status</span><span>Growing something hopeful</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="hello">
+      <div class="wrap compatibility">
+        <div class="section-intro"><div><p class="eyebrow">Your turn</p><h2>Friendship compatibility quiz</h2></div><p>No pressure, no scoring rubric, no weird data collection. Just a few important questions.</p></div>
+        <form id="friend-form">
+          <div class="question-grid">
+            <fieldset><legend>1. You arrive at my house. What should be in the oven?</legend><label><input type="radio" name="food" value="blueberries" required> A blueberry experiment</label><label><input type="radio" name="food" value="cookies"> Something sweet</label><label><input type="radio" name="food" value="lasagna"> A bubbling casserole</label></fieldset>
+            <fieldset><legend>2. Pick our ideal Saturday.</legend><label><input type="radio" name="day" value="market" required> Market, plants, and a long lunch</label><label><input type="radio" name="day" value="hike"> A hike with emergency snacks</label><label><input type="radio" name="day" value="home"> Reading quietly in the same room</label></fieldset>
+            <fieldset><legend>3. What is your strongest snack opinion?</legend><label><input type="radio" name="snack" value="crunch" required> Crunch is essential</label><label><input type="radio" name="snack" value="sweet"> Sweet and salty forever</label><label><input type="radio" name="snack" value="surprise"> I trust the snack curator</label></fieldset>
+            <fieldset><legend>4. Camila offers tea. You...</legend><label><input type="radio" name="tea" value="surprise" required> Ask for the most interesting one</label><label><input type="radio" name="tea" value="herbal"> Choose something herbal and cozy</label><label><input type="radio" name="tea" value="iced"> Request it iced, with confidence</label></fieldset>
+          </div>
+          <label class="name-field" for="name">Your name, or a charming alias <input id="name" name="name" type="text" placeholder="The mysterious soup person" required></label>
+          <button class="button" type="submit">Reveal our extremely scientific results →</button>
+        </form>
+        <div class="result" id="result" aria-live="polite" hidden></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">Made with care, blueberries, tea, plants, and a very loved Honda Fit.</footer>
+  <script src="script.js"></script>
+</body>
+</html>
