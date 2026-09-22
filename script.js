@@ -30,3 +30,139 @@ form.addEventListener('submit', (event) => {
   result.innerHTML = `<h3>${name}, your results are in.</h3><p><strong>${verdict}</strong> ${reports[answers[0]]} ${reports[answers[1]]}</p>`;
   result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 });
+
+const legMasks = Array.from({ length: 7 }, (_, i) => document.querySelector(`#reveal-leg-${i}-path`));
+const plane = document.querySelector('#plane');
+const flyButton = document.querySelector('#fly-route');
+
+if (legMasks.every(Boolean) && plane && flyButton) {
+  const mapTip = document.querySelector('#map-tip');
+  const mapTipLabel = document.querySelector('#map-tip-label');
+  const cityDots = Array.from(document.querySelectorAll('#map .city-dot'));
+
+  let activeStop = null;
+
+  const showTipFor = (index) => {
+    const dot = cityDots[index];
+    const circle = dot.querySelector('circle');
+    const x = parseFloat(circle.getAttribute('cx'));
+    const y = parseFloat(circle.getAttribute('cy'));
+    mapTipLabel.textContent = dot.getAttribute('aria-label');
+    mapTip.setAttribute('x', String(x - 100));
+    mapTip.setAttribute('y', String(y - 46));
+    mapTip.classList.add('visible');
+  };
+
+  const showActiveTip = () => {
+    if (activeStop === null) {
+      mapTip.classList.remove('visible');
+    } else {
+      showTipFor(activeStop);
+    }
+  };
+
+  const setActiveStop = (index) => {
+    if (activeStop !== null) cityDots[activeStop].classList.remove('active');
+    activeStop = index;
+    if (activeStop !== null) cityDots[activeStop].classList.add('active');
+    showActiveTip();
+  };
+
+  cityDots.forEach((dot, index) => {
+    dot.addEventListener('mouseenter', () => showTipFor(index));
+    dot.addEventListener('mouseleave', showActiveTip);
+    dot.addEventListener('focus', () => showTipFor(index));
+    dot.addEventListener('blur', showActiveTip);
+  });
+
+  const stops = Array.from(document.querySelectorAll('#map .city-dot circle')).map((circle) => ({
+    x: parseFloat(circle.getAttribute('cx')),
+    y: parseFloat(circle.getAttribute('cy')),
+  }));
+
+  const legLengths = stops.slice(1).map((stop, i) => Math.hypot(stop.x - stops[i].x, stop.y - stops[i].y));
+
+  legMasks.forEach((mask, i) => {
+    mask.style.strokeDasharray = String(legLengths[i]);
+    mask.style.strokeDashoffset = String(legLengths[i]);
+  });
+
+  const msPerLeg = 900;
+  let currentStop = 0;
+  let isAnimating = false;
+
+  const setLegRevealed = (legIndex, length) => {
+    legMasks[legIndex].style.strokeDashoffset = String(legLengths[legIndex] - length);
+  };
+
+  const placeAtStop = (index) => {
+    plane.setAttribute('transform', `translate(${stops[index].x} ${stops[index].y})`);
+    legMasks.forEach((_, i) => setLegRevealed(i, i < index ? legLengths[i] : 0));
+    setActiveStop(index);
+  };
+
+  placeAtStop(0);
+
+  const flyLeg = (index) => new Promise((resolve) => {
+    const from = stops[index];
+    const to = stops[index + 1];
+    const legLength = legLengths[index];
+    const angle = Math.atan2(to.y - from.y, to.x - from.x) * (180 / Math.PI);
+    const duration = msPerLeg;
+    const start = performance.now();
+
+    setActiveStop(null);
+
+    const step = (now) => {
+      const t = Math.min((now - start) / duration, 1);
+      const x = from.x + (to.x - from.x) * t;
+      const y = from.y + (to.y - from.y) * t;
+      plane.setAttribute('transform', `translate(${x} ${y}) rotate(${angle})`);
+      setLegRevealed(index, legLength * t);
+      if (t < 1) {
+        requestAnimationFrame(step);
+      } else {
+        setActiveStop(index + 1);
+        resolve();
+      }
+    };
+
+    requestAnimationFrame(step);
+  });
+
+  const flyNextLeg = async () => {
+    if (isAnimating) return;
+    if (currentStop >= stops.length - 1) {
+      currentStop = 0;
+      placeAtStop(0);
+      return;
+    }
+    isAnimating = true;
+    await flyLeg(currentStop);
+    currentStop += 1;
+    isAnimating = false;
+  };
+
+  const flyFullRoute = async () => {
+    if (isAnimating) return;
+    isAnimating = true;
+    flyButton.disabled = true;
+    currentStop = 0;
+    placeAtStop(0);
+    for (let i = 0; i < stops.length - 1; i += 1) {
+      await flyLeg(i);
+      currentStop = i + 1;
+    }
+    isAnimating = false;
+    flyButton.disabled = false;
+  };
+
+  flyButton.addEventListener('click', flyFullRoute);
+  document.querySelector('.map-frame').addEventListener('click', flyNextLeg);
+  plane.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      flyNextLeg();
+    }
+  });
+}
